@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift("#{__dir__}/../lib")
+
+require "release_version"
+
+FILEPATH = "./.release_version"
+current_release_version = File.read(FILEPATH) if File.exists?(FILEPATH)
+next_release_version = ReleaseVersion.next_release_version(current_release_version)
+
+File.write(FILEPATH, next_release_version)
+`git tag #{next_release_version}`
